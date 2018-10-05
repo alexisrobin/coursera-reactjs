@@ -9,6 +9,7 @@ import { COMMENTS } from '../shared/comments';
 import { LEADERS } from '../shared/leaders';
 import { PROMOTIONS } from '../shared/promotions';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import DishDetail from './DishDetailComponent';
 
 class Main extends Component {
 
@@ -20,6 +21,7 @@ class Main extends Component {
             leaders: LEADERS,
             promotions: PROMOTIONS
         };
+
     }
 
     render() {
@@ -27,19 +29,28 @@ class Main extends Component {
             return (
                 <Home dish={this.state.dishes.filter(dish => dish.featured).shift()}
                     promotion={this.state.promotions.filter(promo => promo.featured).shift()}
-                    leader={this.state.leaders.filter(leader => leader.featured).shift()}/>
+                    leader={this.state.leaders.filter(leader => leader.featured).shift()} />
             )
-    }
-    return(
+        }
+
+        const DishWithId = ({ match }) => {
+            return (
+                <DishDetail dish={this.state.dishes.filter(dish => dish.id === parseInt(match.params.dishId, 10)).shift()}
+                    comments={this.state.comments.filter(comment => comment.dishId === parseInt(match.params.dishId, 10))} />
+            );
+        }
+
+        return (
             <div>
-    <Header />
-    <Switch>
-        <Route path="/home" component={HomePage} />
-        <Route exact path="/contactus" component={Contact} />
-        <Route exact path="/menu" component={() => <Menu dishes={this.state.dishes} />} />
-        <Redirect to="/home" />
-    </Switch>
-    <Footer />
+                <Header />
+                <Switch>
+                    <Route path="/home" component={HomePage} />
+                    <Route exact path="/contactus" component={Contact} />
+                    <Route exact path="/menu" component={() => <Menu dishes={this.state.dishes} />} />
+                    <Route path="/menu/:dishId" component={DishWithId} />
+                    <Redirect to="/home" />
+                </Switch>
+                <Footer />
             </div >
         );
     }
