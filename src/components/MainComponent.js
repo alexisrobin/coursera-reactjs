@@ -40,7 +40,7 @@ class Main extends Component {
         const HomePage = () => {
             return (
                 <Home dish={this.props.dishes.dishes.filter((dish) => dish.featured).shift()}
-                    dishesLoading={this.props.dishes.isLoading}
+                    dishLoading={this.props.dishes.isLoading}
                     dishErrMess={this.props.dishes.errMess}
                     promotion={this.props.promotions.promotions.filter((promo) => promo.featured).shift()}
                     promoLoading={this.props.promotions.isLoading}
